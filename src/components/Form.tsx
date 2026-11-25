@@ -4,6 +4,7 @@ import { Search, X } from 'lucide-react-native';
 import { color, layout, radius, space } from '../design/tokens';
 import { Text } from './Text';
 import { useLang } from '../lib/lang';
+import { todayISO } from '../lib/dates';
 
 export interface TextFieldProps extends Omit<TextInputProps, 'style'> {
   label: string;
@@ -69,6 +70,8 @@ export function ToggleRow({
         onValueChange={onValueChange}
         trackColor={{ false: color.border, true: color.accent }}
         thumbColor={color.bg}
+        // react-native-web keeps a separate "on" thumb colour that defaults to teal
+        {...({ activeThumbColor: color.bg } as object)}
         accessible={false}
       />
     </Pressable>
@@ -99,7 +102,40 @@ export function SearchField({
   );
 }
 
+// Amount in taka (the person types taka; the screen converts with parseMoneyInput). Bangla digits are fine.
+export function MoneyField(props: Omit<TextFieldProps, 'keyboardType' | 'trailing'>) {
+  return (
+    <TextField
+      {...props}
+      keyboardType="decimal-pad"
+      trailing={<Text variant="base" tone="textMuted" accessibilityElementsHidden>৳</Text>}
+    />
+  );
+}
+
+// A typed date (year-month-day) with a "today" shortcut. A native calendar picker comes later.
+export function DateField({ todayLabel, ...props }: Omit<TextFieldProps, 'keyboardType' | 'trailing'> & { todayLabel: string; onChangeText: (t: string) => void }) {
+  return (
+    <TextField
+      {...props}
+      keyboardType="numbers-and-punctuation"
+      trailing={
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={todayLabel}
+          onPress={() => props.onChangeText(todayISO())}
+          hitSlop={8}
+          style={styles.todayBtn}
+        >
+          <Text variant="xs" weight="600" tone="accent">{todayLabel}</Text>
+        </Pressable>
+      }
+    />
+  );
+}
+
 const styles = StyleSheet.create({
+  todayBtn: { minHeight: 32, paddingHorizontal: space[3], borderRadius: radius.pill, backgroundColor: color.accentSoft, justifyContent: 'center' },
   box: {
     minHeight: layout.control.md, borderWidth: 1, borderRadius: radius.md, backgroundColor: color.bg,
     flexDirection: 'row', alignItems: 'center', paddingHorizontal: space[3],

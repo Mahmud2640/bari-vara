@@ -39,3 +39,9 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# env files: real values stay local, only the .example files are committed
+.env
+.env.*
+!.env.example
+!.env.scripts.example

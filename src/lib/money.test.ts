@@ -1,4 +1,4 @@
-import { formatMoney, parseMoneyInput } from './money.ts';
+import { formatMoney, parseMoneyInput, moneyToInput } from './money.ts';
 
 let fail = 0;
 const eq = (name: string, got: unknown, want: unknown) => {
@@ -21,6 +21,10 @@ eq('parse rejects text', parseMoneyInput('abc'), null);
 eq('parse rejects 3 decimals', parseMoneyInput('1.234'), null);
 eq('parse rejects empty', parseMoneyInput(''), null);
 eq('parse taka sign and spaces', parseMoneyInput(' ৳ 2 500 '), 250000);
+
+eq('moneyToInput en', moneyToInput(180050, 'en'), '1800.50');
+eq('moneyToInput bn', moneyToInput(1800000, 'bn'), '১৮০০০');
+eq('moneyToInput round trip', parseMoneyInput(moneyToInput(1800000, 'bn')), 1800000);
 
 console.log(fail ? `${fail} failed` : 'all passed');
 process.exit(fail ? 1 : 0);

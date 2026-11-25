@@ -39,3 +39,12 @@ export function parseMoneyInput(text: string): number | null {
   const [t, f = ''] = s.split('.');
   return Number(t) * 100 + Number(f.padEnd(2, '0'));
 }
+
+// An amount as it should appear inside an edit field: plain digits, no ৳, no grouping commas.
+export function moneyToInput(poisha: number, lang: Lang = 'bn'): string {
+  const taka = Math.floor(Math.abs(poisha) / 100);
+  const fraction = Math.abs(poisha) % 100;
+  let s = String(taka);
+  if (fraction !== 0) s += '.' + String(fraction).padStart(2, '0');
+  return lang === 'bn' ? toBanglaDigits(s) : s;
+}

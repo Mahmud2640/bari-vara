@@ -19,7 +19,7 @@ export interface ButtonProps {
 
 const palette = {
   primary: { bg: color.accent, fg: 'onAccent', border: color.accent },
-  secondary: { bg: color.surface, fg: 'text', border: color.surface },
+  secondary: { bg: color.surface, fg: 'text', border: color.border },
   ghost: { bg: 'transparent', fg: 'accent', border: 'transparent' },
   danger: { bg: color.bg, fg: 'danger', border: color.danger },
 } as const;

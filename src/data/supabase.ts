@@ -25,6 +25,7 @@ export function mapError(e: PgError, ctx: { deleting?: boolean } = {}): DataErro
   let mapped: ErrorCode;
   if (NETWORK.test(text) || e.name === 'AuthRetryableFetchError') mapped = 'network';
   else if (e.status === 429 || /rate limit|too many/i.test(text)) mapped = 'rate_limited';
+  else if (/error sending|smtp/i.test(text)) mapped = 'send_failed';
   else if (code === '23505') {
     if (text.includes('tenants_one_active_per_unit')) mapped = 'unit_occupied';
     else if (text.includes('units_name_per_property')) mapped = 'duplicate_unit';
@@ -116,6 +117,7 @@ export function createSupabaseLayer(client: SupabaseClient): DataLayer {
       const { error } = await client.auth.signInWithOtp({ email: trimmed(email), options: { shouldCreateUser: true } });
       if (error) {
         if (error.status === 429 || /rate limit/i.test(error.message)) throw new DataError('rate_limited', error.message);
+        if ((error.status ?? 0) >= 500 || /error sending|smtp/i.test(error.message)) throw new DataError('send_failed', error.message);
         if (error.status === 400 || /invalid/i.test(error.message)) throw new DataError('invalid', 'email');
         throw mapError(error);
       }

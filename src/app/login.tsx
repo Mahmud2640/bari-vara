@@ -7,7 +7,7 @@ import { Text } from '../components/Text';
 import { Button } from '../components/Button';
 import { TextField } from '../components/Form';
 import { useLang, useT } from '../lib/lang';
-import { data, DEMO_CODE, IS_DEMO } from '../data';
+import { data, DataError, DEMO_CODE, IS_DEMO } from '../data';
 import { errorMessage } from '../lib/errors';
 import { toLatinDigits, toBanglaDigits } from '../lib/money';
 
@@ -39,8 +39,9 @@ export default function Login() {
       setCode('');
       setStep('code');
       setCooldown(COOLDOWN);
-    } catch {
-      setError(t('login.badEmail'));
+    } catch (e) {
+      // say what really went wrong: a bad address, too many tries, or the email could not be sent
+      setError(e instanceof DataError && e.code === 'invalid' ? t('login.badEmail') : errorMessage(e, t));
     } finally {
       setBusy(false);
     }

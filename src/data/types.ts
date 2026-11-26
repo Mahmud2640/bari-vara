@@ -120,6 +120,7 @@ export type ErrorCode =
   | 'bad_dates'          // move-out before move-in, period end before start
   | 'not_found'
   | 'rate_limited'       // too many login codes asked for
+  | 'send_failed'        // the server could not send the email (sender not set up, rejected, down)
   | 'network';
 
 export class DataError extends Error {

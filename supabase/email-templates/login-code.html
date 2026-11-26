@@ -1,0 +1,11 @@
+<!--
+  Paste this into BOTH Supabase email templates: "Magic Link" and "Confirm signup".
+  (A brand-new person is sent one of them, a returning person the other, so both must show the code.)
+  Subject for both:  আপনার লগইন কোড / Your login code
+  It shows the code only. There is deliberately no link: the app asks for the code.
+  If you change "Email OTP Expiration" in Supabase, change "1 hour" / "১ ঘণ্টা" below to match.
+-->
+<h2>আপনার লগইন কোড / Your login code</h2>
+<p style="font-size:32px;letter-spacing:6px;font-weight:bold;margin:16px 0">{{ .Token }}</p>
+<p>এই কোডটি ১ ঘণ্টা কাজ করবে। আপনি না চাইলে এই ইমেইল উপেক্ষা করুন।</p>
+<p>This code works for one hour. If you did not ask for it, ignore this email.</p>

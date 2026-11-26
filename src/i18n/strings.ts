@@ -237,6 +237,7 @@ const bn = {
   'err.not_found': 'এটি আর পাওয়া যাচ্ছে না।',
   'err.network': 'সংযোগ নেই। আপনার কাজ সংরক্ষিত হয়নি।',
   'err.rate_limited': 'অনেকবার চেষ্টা হয়েছে। এক মিনিট পরে আবার চেষ্টা করুন।',
+  'err.send_failed': 'ইমেইল পাঠানো যায়নি। কিছুক্ষণ পরে আবার চেষ্টা করুন।',
   'err.bad_code': 'কোডটি ঠিক নয় বা মেয়াদ শেষ হয়ে গেছে',
   'err.unknown': 'কিছু একটা ভুল হয়েছে। আবার চেষ্টা করুন।',
 };
@@ -479,6 +480,7 @@ const en: Record<StringKey, string> = {
   'err.not_found': 'This can no longer be found.',
   'err.network': 'No connection. Your change was not saved.',
   'err.rate_limited': 'Too many attempts. Wait a minute and try again.',
+  'err.send_failed': 'The email could not be sent. Please try again in a few minutes.',
   'err.bad_code': 'That code is wrong or has expired',
   'err.unknown': 'Something went wrong. Please try again.',
 };
